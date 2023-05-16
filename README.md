@@ -280,7 +280,7 @@ volumes:
       
 ```
 
-`vi .env.dev`
+ - `vi .env.dev`
 ```
 FLASK_APP=project/__init__.py
 FLASK_DEBUG=1
@@ -291,28 +291,16 @@ DATABASE=postgres
 
 ```
 
-`sudo apt install docker-compose`
-
-`sudo docker-compose build`
-
-`sudo docker-compose up -d`
-
-`sudo docker-compose logs -f`
-
-`curl http://172.18.0.2:5000`
-
-`sudo docker-compose exec web python manage.py create_db` # Create the table
-
-`sudo docker-compose exec db psql --username=hello_flask --dbname=hello_flask_dev` # Ensure the users table was created
-
-`sudo docker volume inspect flaskondocker_postgres_data` # Check that the volume was created
-
-`sudo docker-compose exec web python manage.py seed_db` # add sample users to the users table
-
-`sudo docker-compose exec db psql --username=hello_flask --dbname=hello_flask_dev` # Ensure the user entry was created
-
-`sudo docker-compose stop`
-
-go to the URL: `https://jupyter.moclodbapi.ez.sats.cloud/custom3/usr`# to check if the app functions with the postgresDB
-
-`sudo docker-compose stop`
+ - `sudo apt install docker-compose`
+ - `sudo docker-compose build`
+ - `sudo docker-compose up -d`
+ - `sudo docker-compose logs -f`
+ - `curl http://172.18.0.2:5000`
+ - Create the table: `sudo docker-compose exec web python manage.py create_db`
+ - Ensure the users table was created: `sudo docker-compose exec db psql --username=hello_flask --dbname=hello_flask_dev`
+ - Check that the volume was created: `sudo docker volume inspect flaskondocker_postgres_data`
+ - Add sample users to the users table: `sudo docker-compose exec web python manage.py seed_db`
+ - Ensure the user entry was created:`sudo docker-compose exec db psql --username=hello_flask --dbname=hello_flask_dev` 
+ - `sudo docker-compose stop`
+ - go to the URL to check if the app functions with the postgresDB: `https://jupyter.moclodbapi.ez.sats.cloud/custom3/usr`
+ - `sudo docker-compose stop`
