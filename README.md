@@ -3,6 +3,7 @@ ref: https://testdriven.io/blog/dockerizing-flask-with-postgres-gunicorn-and-ngi
 ## Reproduce flask-app in Docker:
 
 `sudo aws s3 cp s3://ez-config-pr-prod/config/nginx-conf/apply_customized_endpoint_configuration.sh - | bash`
+
 `mkdir flask-on-docker && cd flask-on-docker`
 `mkdir services && cd services`
 `mkdir web && cd web`
