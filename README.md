@@ -2,23 +2,15 @@ ref: https://testdriven.io/blog/dockerizing-flask-with-postgres-gunicorn-and-ngi
 
 ## Reproduce flask-app in Docker:
 
-`sudo aws s3 cp s3://ez-config-pr-prod/config/nginx-conf/apply_customized_endpoint_configuration.sh - | bash`
-
-`mkdir flask-on-docker && cd flask-on-docker`
-
-`mkdir services && cd services`
-
-`mkdir web && cd web`
-
-`mkdir project`
-
-`python -m venv env`
-
-`source env/bin/activate`
-
-`pip install flask==2.2.2`
-
-`vi project/__init__.py`
+ - `sudo aws s3 cp s3://ez-config-pr-prod/config/nginx-conf/apply_customized_endpoint_configuration.sh - | bash`
+ - `mkdir flask-on-docker && cd flask-on-docker`
+ - `mkdir services && cd services`
+ - `mkdir web && cd web`
+ - `mkdir project`
+ - `python -m venv env`
+ - `source env/bin/activate`
+ - `pip install flask==2.2.2`
+ - `vi project/__init__.py`
 ```python
 from flask import Flask, jsonify
   
@@ -32,7 +24,7 @@ def hello_world():
 
 ```
 
-`vi manage.py`
+ - `vi manage.py`
 ```python
 from flask.cli import FlaskGroup
   
@@ -47,15 +39,15 @@ if __name__ == "__main__":
     
 ```
 
-`python manage.py run`
+ - `python manage.py run`
 
-`vi requirements.txt`
+ - `vi requirements.txt`
 ```
 Flask==2.2.2
     
 ```
 
-`vi Dockerfile`
+ - `vi Dockerfile`
 ```dockerfile
 # pull official base image
 FROM python:3.9-slim-buster
@@ -77,9 +69,9 @@ COPY . /usr/src/app/
 
 ```
 
-`cd .. `
-`cd ..`
-`vi docker-compose.yml`
+ - `cd ..`
+ - `cd ..`
+ - `vi docker-compose.yml`
 ```docker-compose
 version: '3.3'
   
@@ -96,31 +88,30 @@ services:
       
 ```
 
-`vi .env.dev`
+ - `vi .env.dev`
 ```
 FLASK_APP=project/__init__.py
 FLASK_DEBUG=1
 ```
 
-`sudo apt install docker-compose`
-`sudo docker-compose build`
-`sudo docker-compose up -d`
-`sudo docker-compose logs -f`
-`curl http://172.18.0.2:5000`
-`sudo docker-compose stop`
+ - `sudo apt install docker-compose`
+ - `sudo docker-compose build`
+ - `sudo docker-compose up -d`
+ - `sudo docker-compose logs -f`
+ - `curl http://172.18.0.2:5000`
+ - `sudo docker-compose stop`
 
 ## Reproduce flask-app + PostgresDB in Docker:
 
-`sudo aws s3 cp s3://ez-config-pr-prod/config/nginx-conf/apply_customized_endpoint_configuration.sh - | bash`
-`mkdir flask-on-docker && cd flask-on-docker`
-`mkdir services && cd services`
-`mkdir web && cd web`
-`mkdir project`
-`python -m venv env`
-`source env/bin/activate`
-`pip install flask==2.2.2`
-
-`vi project/config.py`
+ - `sudo aws s3 cp s3://ez-config-pr-prod/config/nginx-conf/apply_customized_endpoint_configuration.sh - | bash`
+ - `mkdir flask-on-docker && cd flask-on-docker`
+ - `mkdir services && cd services`
+ - `mkdir web && cd web`
+ - `mkdir project`
+ - `python -m venv env`
+ - `source env/bin/activate`
+ - `pip install flask==2.2.2`
+ - `vi project/config.py`
 ```python
 import os
   
@@ -134,7 +125,7 @@ class Config(object):
 
 ```
 
-`vi project/__init__.py`
+ - `vi project/__init__.py`
 ```python
 from flask import Flask, jsonify, Response
 from flask_sqlalchemy import SQLAlchemy
@@ -173,7 +164,7 @@ def query_usr():
 
 ```
 
-`vi manage.py`
+ - `vi manage.py`
 ```python
 from flask.cli import FlaskGroup
   
@@ -201,7 +192,7 @@ if __name__ == "__main__":
     
 ```
 
-`vi requirements.txt`
+ - `vi requirements.txt`
 ```
 Flask==2.2.2
 Flask-SQLAlchemy==3.0.3
@@ -209,7 +200,7 @@ psycopg2-binary==2.9.5
     
 ```
 
-`vi entrypoint.sh`
+ - `vi entrypoint.sh`
 ```bash
 #!/bin/sh
   
@@ -229,9 +220,9 @@ python manage.py create_db
 exec "$@"
 
 ```
-`chmod +x services/web/entrypoint.sh`
+ - `chmod +x services/web/entrypoint.sh`
 
-`vi Dockerfile`
+ - `vi Dockerfile`
 ```dockerfile
 # pull official base image
 FROM python:3.9-slim-buster
@@ -259,9 +250,9 @@ ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 
 ```
 
-`cd .. `
-`cd ..`
-`vi docker-compose.yml`
+ - `cd .. `
+ - `cd ..`
+ - `vi docker-compose.yml`
 ```docker-compose
 version: '3.3'
   
@@ -301,15 +292,27 @@ DATABASE=postgres
 ```
 
 `sudo apt install docker-compose`
+
 `sudo docker-compose build`
+
 `sudo docker-compose up -d`
+
 `sudo docker-compose logs -f`
+
 `curl http://172.18.0.2:5000`
+
 `sudo docker-compose exec web python manage.py create_db` # Create the table
+
 `sudo docker-compose exec db psql --username=hello_flask --dbname=hello_flask_dev` # Ensure the users table was created
+
 `sudo docker volume inspect flaskondocker_postgres_data` # Check that the volume was created
+
 `sudo docker-compose exec web python manage.py seed_db` # add sample users to the users table
+
 `sudo docker-compose exec db psql --username=hello_flask --dbname=hello_flask_dev` # Ensure the user entry was created
+
 `sudo docker-compose stop`
+
 go to the URL: `https://jupyter.moclodbapi.ez.sats.cloud/custom3/usr`# to check if the app functions with the postgresDB
+
 `sudo docker-compose stop`
