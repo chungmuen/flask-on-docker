@@ -5,11 +5,17 @@ ref: https://testdriven.io/blog/dockerizing-flask-with-postgres-gunicorn-and-ngi
 `sudo aws s3 cp s3://ez-config-pr-prod/config/nginx-conf/apply_customized_endpoint_configuration.sh - | bash`
 
 `mkdir flask-on-docker && cd flask-on-docker`
+
 `mkdir services && cd services`
+
 `mkdir web && cd web`
+
 `mkdir project`
+
 `python -m venv env`
+
 `source env/bin/activate`
+
 `pip install flask==2.2.2`
 
 `vi project/__init__.py`
@@ -42,6 +48,7 @@ if __name__ == "__main__":
 ```
 
 `python manage.py run`
+
 `vi requirements.txt`
 ```
 Flask==2.2.2
